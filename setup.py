@@ -1,3 +1,6 @@
+"""
+setup tools
+"""
 from setuptools import find_packages, setup
 
 setup(
@@ -10,4 +13,5 @@ setup(
     ],
 )
 
-# MANIFEST.in: This tells Python to copy everything in the static and templates directories, and the schema.sql file, but to exclude all bytecode files.
+# MANIFEST.in: This tells Python to copy everything in the static and templates
+#  directories, and the schema.sql file, but to exclude all bytecode files.

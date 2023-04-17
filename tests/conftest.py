@@ -1,3 +1,6 @@
+"""
+conftest
+"""
 import os
 import tempfile
 
@@ -11,6 +14,9 @@ with open(os.path.join(os.path.dirname(__file__), 'data.sql'), 'rb') as f:
 
 @pytest.fixture
 def app():
+    """
+    app fixture
+    """
     db_fd, db_path = tempfile.mkstemp()
 
     app = create_app({
@@ -30,12 +36,16 @@ def app():
 
 @pytest.fixture
 def client(app):
+    """
+    client fixture
+    """
     return app.test_client()
 
 
 @pytest.fixture
 def runner(app):
     return app.test_cli_runner()
+
 
 class AuthActions(object):
     def __init__(self, client):
