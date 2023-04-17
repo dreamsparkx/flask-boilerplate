@@ -1,6 +1,8 @@
 Flaskr
 ======
 
+![main.yml workflow](https://github.com/dreamsparkx/flask-boilerplate/actions/workflows/python-app.yml/badge.svg)
+
 
 Install
 -------
