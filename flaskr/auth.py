@@ -39,7 +39,7 @@ def register():
             try:
                 db.execute(
                     "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
+                    (username, generate_password_hash(password, "pbkdf2")),
                 )
                 db.commit()
             except db.IntegrityError:
