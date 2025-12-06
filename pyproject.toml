@@ -28,9 +28,6 @@ test = [
 [tool.setuptools]
 include-package-data = true
 
-[tool.setuptools.package-data]
-flaskr = ["schema.sql"]
-
 [tool.setuptools.exclude-package-data]
 "*" = ["*.pyc"]
 
