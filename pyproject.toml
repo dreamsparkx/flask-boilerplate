@@ -23,10 +23,33 @@ test = [
     "pytest",
     "coverage",
 ]
+dev = [
+    "ruff",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py38"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "C",   # flake8-comprehensions
+    "B",   # flake8-bugbear
+]
+ignore = []
 
 # ------------ Package inclusion rules (MANIFEST.in) ------------
 [tool.setuptools]
 include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["flaskr*"]
+exclude = ["instance*", "tests*"]
 
 [tool.setuptools.exclude-package-data]
 "*" = ["*.pyc"]

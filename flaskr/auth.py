@@ -1,12 +1,24 @@
 """
 auth
 """
+
 import functools
-from flask import (Blueprint, flash, g, redirect,
-                   render_template, request, session, url_for)
+
+from flask import (
+    Blueprint,
+    flash,
+    g,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 from werkzeug.security import check_password_hash, generate_password_hash
+
 from flaskr.db import get_db
-bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+bp = Blueprint("auth", __name__, url_prefix="/auth")
 # A view function is the code you write to respond to requests
 # to your application. Flask uses patterns to match the incoming request
 # URL to the view that should handle it. The view returns data that Flask
@@ -19,21 +31,21 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 # with the application when it is available in the factory function.
 
 
-@bp.route('/register', methods=('GET', 'POST'))
+@bp.route("/register", methods=("GET", "POST"))
 def register():
     """
     register API
     """
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
         db = get_db()
         error = None
 
         if not username:
-            error = 'Username is required.'
+            error = "Username is required."
         elif not password:
-            error = 'Password is required.'
+            error = "Password is required."
 
         if error is None:
             try:
@@ -49,27 +61,27 @@ def register():
 
         flash(error)
 
-    return render_template('auth/register.html')
+    return render_template("auth/register.html")
 
 
-@bp.route('/login', methods=('GET', 'POST'))
+@bp.route("/login", methods=("GET", "POST"))
 def login():
     """
     login API
     """
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
         db = get_db()
         error = None
         user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
+            "SELECT * FROM user WHERE username = ?", (username,)
         ).fetchone()
 
         if user is None:
-            error = 'Incorrect username.'
-        elif not check_password_hash(user['password'], password):
-            error = 'Incorrect password.'
+            error = "Incorrect username."
+        elif not check_password_hash(user["password"], password):
+            error = "Incorrect password."
 
         if error is None:
             # session is a dict that stores data across requests.
@@ -79,12 +91,12 @@ def login():
             # requests. Flask securely signs the data so that
             # it can’t be tampered with.
             session.clear()
-            session['user_id'] = user['id']
-            return redirect(url_for('index'))
+            session["user_id"] = user["id"]
+            return redirect(url_for("index"))
 
         flash(error)
 
-    return render_template('auth/login.html')
+    return render_template("auth/login.html")
 
 
 @bp.before_app_request
@@ -92,23 +104,23 @@ def load_logged_in_user():
     """
     run before each API/request
     """
-    user_id = session.get('user_id')
+    user_id = session.get("user_id")
 
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        g.user = (
+            get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
+        )
 
 
-@bp.route('/logout')
+@bp.route("/logout")
 def logout():
     """
     logout API/request
     """
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for("index"))
 
 
 # Creating, editing, and deleting blog posts will require a user to be logged
@@ -119,14 +131,16 @@ def logout():
 # called and continues normally. You’ll use this decorator when writing the
 # blog views.
 
+
 def login_required(view):
     """
     decorator
     """
+
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
-            return redirect(url_for('auth.login'))
+            return redirect(url_for("auth.login"))
 
         return view(**kwargs)
 
