@@ -28,6 +28,7 @@ Or on Windows cmd::
 Install Flaskr::
 
     $ pip install -e .
+    $ pip install '.[dev,test]'
 
 Or if you are using the main branch, install Flask from source before
 installing Flaskr::
