@@ -3,9 +3,10 @@ flaskr app
 """
 import os
 from flask import Flask
+from typing import Any, Mapping
 
 
-def create_app(test_config=None):
+def create_app(test_config: Mapping[str, Any] | None = None) -> Flask:
     """
     create_app is the application factory function
     """
